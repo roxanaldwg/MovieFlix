@@ -2,15 +2,190 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="utf-8">
-    <title>Roxana Ludwig - MovieFlix Documentation</title>
+  <meta charset="utf-8">
+  <title>Roxana Ludwig - MovieFlix Documentation</title>
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <h1>Documentation</h1>
-    <p>The web application will provide users with access to information about different 
-    movies, directors, and genres. Users will be able to sign up, update their personal 
-    information, and create a list of their favorite movies.
-    </p>
+  <h1>Documentation</h1>
+  <p>The web application will provide users with access to information about different 
+  movies, directors, and genres. Users will be able to sign up, update their personal 
+  information, and create a list of their favorite movies.
+  </p>
+
+  <h3>Technical Requirements</h3>
+<ul>
+    <li>The API must be a Node.js and Express application;</li>
+    <li>The API must use REST architecture, with URL endpoints corresponding to the data
+        operations listed above;</li>
+    <li>The API must use at least three middleware modules, such as the body-parser package for
+        reading data from requests and morgan for logging;</li>
+    <li>The API must use a “package.json” file;</li>
+    <li>The database must be built using MongoDB;</li>
+    <li>The business logic must be modeled with Mongoose;</li>
+    <li>The API must provide movie information in JSON format;</li>
+    <li>The JavaScript code must be error-free;</li>
+    <li>The API must be tested in Postman;</li>
+    <li>The API must include user authentication and authorization code;</li>
+    <li>The API must include data validation logic;</li>
+    <li>The API must meet data security regulations;</li>
+    <li> The API source code must be deployed to a publicly
+        accessible platform like GitHub;</li>
+    <li> The API must be deployed to Heroku.</li>
+</ul>
+
+
+<h3>Essential Features</h3>
+  <table>
+    <thead></thead>
+      <tr>
+        <th>Request</th>
+        <th>URL</th>
+        <th>HTTP Method</th>
+        <th>Response body data format</th>
+      </tr>
+    </thead>
+
+    <tr>
+      <td>Home page MovieFlix</td>
+      <td>/</td>
+      <td>GET</td>
+      <td>Message: "Welcome to MovieFlix!</td>
+    </tr>
+
+    <tr>
+      <td>Return a list of ALL movies to the user</td>
+      <td>/movies</td>
+      <td>GET</td>
+      <td>A JSON object holding data about all the movies</td>
+    </tr>
+
+    <tr>
+      <td>Return data about a single movie by title to the user</td>
+      <td>/movies/[Name]</td>
+      <td>GET</td>
+      <td>A JSON object holding data 
+        about a single movie, 
+        containing description, genre, director, image URL, whether it’s featured or not. 
+        <br>
+        Example:
+        <br><code>
+          {<br>
+          id: "...",<br>
+          title: "...",<br>
+          description: "...",<br>
+          genre: "...",<br>
+          director: "...",<br>
+          imagePath: "...",<br>
+          featured: "..."<br>
+          }
+        </code>
+        <br>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Return data about a genre</td>
+      <td>/genres/:name</td>
+      <td>GET</td>
+      <td>Return JSON object with data about genre (description)
+        by name/title (e.g., “Thriller”)
+        <br>
+        Example response
+        <br><code>
+            {<br>
+            title: "...",<br>
+            genre: "...",<br>
+            }
+        </code>
+        <br>
+      </td>
+    </tr>
+    
+    <tr>
+      <td>Return data about a director by name</td>
+      <td>/directors/:name</td>
+      <td>GET</td>
+      <td>Return JSON object with data about director
+        (bio, birth year, death year) by name
+        <br>
+        Example response
+        <br><code>
+            {<br>
+            director: "...",<br>
+            name: "...",<br>
+            bio: "...",<br>
+            birth: "...",<br>
+            death: "..."<br>
+            }
+        </code>
+        <br></td>
+    </tr>
+    
+    <tr>
+      <td>Allow new users to register</td>
+      <td>/users</td>
+      <td>POST</td>
+      <td>Create JSON object with data about a new user.
+        <br>
+        Example response
+        <br><code>
+            {<br>
+            id: "...",<br>
+            username: "...",<br>
+            password: "...",<br>
+            email: "...",<br>
+            birthday: "...",<br>
+            favoriteMovies: "..."<br>
+            }
+        </code></td>
+    </tr>
+        
+    <tr>
+      <td>Allow users to update their user info</td>
+      <td>/users/:username</td>
+      <td>PUT</td>
+      <td>Update JSON object with user data.
+        <br>
+        Example
+        <br><code>
+            {<br>
+            id: "...",<br>
+            username: "...",<br>
+            password: "...",<br>
+            email: "...",<br>
+            birthday: "...",<br>
+            favoriteMovies: "..."<br>
+            }
+        </code></td>
+    </tr>
+
+    <tr>
+      <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added</td>
+      <td>/users/:username/movies/:movieID</td>
+      <td>POST</td>
+      <td>Create JSON object with data about a user's list of favorite movies.
+        Message: "Movie was added to favorites"</td>
+    </tr>
+
+    <tr>
+      <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed)</td>
+      <td>/users/:username/movies/:movieID</td>
+      <td>DELETE</td>
+      <td>JSON object with data about a user's list of favorite movies.
+        Message: "Movie was deleted"</td>
+    </tr>
+
+    <tr>
+      <td>Allow existing users to deregister (showing only a text that a user email has been removed)</td>
+      <td>/users/:username</td>
+      <td>DELETE</td>
+      <td>Delete user's account.
+        Message: "Your account was successfully deleted"</td>
+    </tr>
+  </table>
+
 </body>
 </html>
 
