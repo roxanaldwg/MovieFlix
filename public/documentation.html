@@ -40,7 +40,7 @@
   <table>
     <thead></thead>
       <tr>
-        <th>Request</th>
+        <th>Business Logic</th>
         <th>URL</th>
         <th>HTTP Method</th>
         <th>Response body data format</th>
@@ -63,7 +63,7 @@
 
     <tr>
       <td>Return data about a single movie by title to the user</td>
-      <td>/movies/[Name]</td>
+      <td>/movies/:Title</td>
       <td>GET</td>
       <td>A JSON object holding data 
         about a single movie, 
@@ -72,13 +72,13 @@
         Example:
         <br><code>
           {<br>
-          id: "...",<br>
-          title: "...",<br>
-          description: "...",<br>
-          genre: "...",<br>
-          director: "...",<br>
-          imagePath: "...",<br>
-          featured: "..."<br>
+          "id": "...",<br>
+          "title": "...",<br>
+          "description": "...",<br>
+          "genre": "...",<br>
+          "director": "...",<br>
+          "imagePath": "...",<br>
+          "featured": "..."<br>
           }
         </code>
         <br>
@@ -95,8 +95,8 @@
         Example response
         <br><code>
             {<br>
-            title: "...",<br>
-            genre: "...",<br>
+            "title": "...",<br>
+            "genre": "...",<br>
             }
         </code>
         <br>
@@ -113,11 +113,11 @@
         Example response
         <br><code>
             {<br>
-            director: "...",<br>
-            name: "...",<br>
-            bio: "...",<br>
-            birth: "...",<br>
-            death: "..."<br>
+            "director": "...",<br>
+            "name": "...",<br>
+            "bio": "...",<br>
+            "birth": "...",<br>
+            "death": "..."<br>
             }
         </code>
         <br></td>
@@ -132,12 +132,12 @@
         Example response
         <br><code>
             {<br>
-            id: "...",<br>
-            username: "...",<br>
-            password: "...",<br>
-            email: "...",<br>
-            birthday: "...",<br>
-            favoriteMovies: "..."<br>
+            "id": "...",<br>
+            "username": "...",<br>
+            "password": "...",<br>
+            "email": "...",<br>
+            "birthday": "...",<br>
+            "favoriteMovies": "..."<br>
             }
         </code></td>
     </tr>
@@ -151,12 +151,12 @@
         Example
         <br><code>
             {<br>
-            id: "...",<br>
-            username: "...",<br>
-            password: "...",<br>
-            email: "...",<br>
-            birthday: "...",<br>
-            favoriteMovies: "..."<br>
+            "id": "...",<br>
+            "username": "...",<br>
+            "password": "...",<br>
+            "email": "...",<br>
+            "birthday": "...",<br>
+            "favoriteMovies": "..."<br>
             }
         </code></td>
     </tr>
