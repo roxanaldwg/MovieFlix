@@ -39,7 +39,6 @@ app.get('/movies', (req, res) => {
     });
 });
 
-
 //Get data about a single movie by title
 app.get('/movies/:Title', (req, res) => {
   Movies.findOne({ Title: req.params.Title })
@@ -52,29 +51,31 @@ app.get('/movies/:Title', (req, res) => {
     });
 });
 
-//Get data about a genre
-app.get('/genres/:Name', (req, res) => {
-  Movies.find({ "Genre.Name": req.params.genre })
-    .then((genre) => {
-      res.json(genre);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+// GET data about a genre (description) by name/title (e.g., “Drama”)
+app.get("/genres/:genre",  (req, res) => {
+    Movies.findOne({ "Genre.Name": req.params.genre })
+      .then((movie) => {
+        res.json(movie.Genre);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
-//Get data about a director by name
-app.get('/directors/:name', (req, res) => {
-  Movies.find({ "Director.Name": req.params.Name })
-    .then ((director) => {
-      res.json(director);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+// GET data about a director (birth year) by name
+app.get("/director/:directorName",  (req, res) => {
+    Movies.findOne({ "Director.Name": req.params.directorName })
+      .then((movie) => {
+        res.json(movie.Director);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //get all users
 app.get('/users', function (req, res) {
