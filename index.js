@@ -7,7 +7,11 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 //This allows Mongoose to connect to movie_api database so it can perform CRUD operations
-mongoose.connect('mongodb://localhost:27017/MovieFlixDB', { 
+/* mongoose.connect('mongodb://localhost:27017/MovieFlixDB', { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+}); */
+mongoose.connect(process.env.CONNECTION_URI, { 
   useNewUrlParser: true, 
   useUnifiedTopology: true 
 });
