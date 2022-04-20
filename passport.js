@@ -30,10 +30,6 @@ passport.use(new LocalStrategy({
   });
 }));
 
-userSchema.methods.validatePassword = function (password) {
-  return bcrypt.compareSync(password, this.Password);
-};
-
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey: 'your_jwt_secret'
