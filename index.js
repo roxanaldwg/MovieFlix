@@ -45,12 +45,23 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-//Home page
+/**
+ * Welcome page
+ * @method GET
+ * @returns {string} - welcome message 
+ */
 app.get('/', (req, res) => {
   res.send('Welcome to MovieFlix!');
 });
 
-//Get list of all movies
+/**
+ * GET request to the ('movies') endpoint to return a list of all movies.
+ * @method GET /movies
+ * @param {string} URL 
+ * @param {authenticationCallback}
+ * @param {requestCallback}
+ * @returns {array} An array containing individual movie objects.
+ */
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then((movies) => {
@@ -62,7 +73,12 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
     });
 });
 
-//Get data about a single movie by title
+/**
+ * Get single movie by title
+ * @method GET
+ * @param {string} endpoint - endpoint to fetch single movie "url/movies/:Title" 
+ * @requires authentication JWT
+ */
 app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
@@ -74,7 +90,12 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
     });
 });
 
-// GET data about a genre (description) by name/title (e.g., “Drama”)
+/**
+ * Get single genre by name
+ * @method GET
+ * @param {string} endpoint - endpoint to fetch single genre "url/genres/:genre" 
+ * @requires authentication JWT
+ */
 app.get("/genres/:genre", passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ "Genre.Name": req.params.genre })
     .then((movie) => {
@@ -87,7 +108,12 @@ app.get("/genres/:genre", passport.authenticate('jwt', { session: false }), (req
 }
 );
 
-// GET data about a director (birth year) by name
+/**
+ * Get data about director by name
+ * @method GET
+ * @param {string} endpoint - endpoint to fetch director by name "url/directors/:directorName" 
+ * @requires authentication JWT
+ */
 app.get("/director/:directorName", passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ "Director.Name": req.params.directorName })
     .then((movie) => {
@@ -100,7 +126,12 @@ app.get("/director/:directorName", passport.authenticate('jwt', { session: false
 }
 );
 
-//get all users
+/**
+ * Get all users
+ * @method GET
+ * @param {string} endpoint - endpoint to fetch users "url/users" 
+ * @requires authentication JWT
+ */
 app.get('/users', passport.authenticate('jwt', { session: false }), function (req, res) {
   Users.find()
     .then(function (users) {
@@ -112,7 +143,12 @@ app.get('/users', passport.authenticate('jwt', { session: false }), function (re
     });
 });
 
-// Get a user by username
+/**
+ * Get a single user
+ * @method GET
+ * @param {string} endpoint - endpoint to fetch single user "url/users/:Username" 
+ * @requires authentication JWT
+ */
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
@@ -124,7 +160,16 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
     });
 });
 
-//allow new users to register
+/**
+ * allow user to register
+ * @method POST
+ * @param {string} endpoint - endpoint to add user. "url/users"
+ * @param {string} Username - choosen by user
+ * @param {string} Password - user's password
+ * @param {string} Email - user's e-mail adress
+ * @returns {object} - new user
+ * @requires auth no authentication - public
+ */
 app.post('/users',
   [
     check('Username', 'Username is required').isLength({ min: 5 }),
@@ -167,7 +212,16 @@ app.post('/users',
       });
   });
 
-//Allow users to update their user info, by username
+/**
+  * Update user by username
+  * @method PUT
+  * @param {string} endpoint - endpoint to add user. "url/users/:Usename"
+  * @param {string} Username - required
+  * @param {string} Password - user's new password
+  * @param {string} Email - user's new e-mail adress
+  * @returns {string} - returns success/error message
+  * @requires authentication JWT
+  */
 app.put('/users/:Username', [
   check('Username', 'Username is required').isLength({ min: 5 }),
   check('Username', 'Username contains non-alphanumeric characters, not allwed.').isAlphanumeric(),
@@ -203,7 +257,14 @@ app.put('/users/:Username', [
       });
   });
 
-//Allow users to add a movie to their list of favorites
+/**
+ * Allow users to add a movie to their list of favorites
+ * @method POST
+ * @param {string} endpoint - endpoint to add movies to favorites "url/users/:Username/movies/:MovieID"
+ * @param {string} Title, Username - both are required
+ * @returns {string} - returns success/error message
+ * @requires authentication JWT
+ */
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
@@ -221,7 +282,14 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
     });
 });
 
-//Allow users to remove a movie from their list of favorites 
+/**
+ * Allow users to remove a movie from their list of favorites 
+ * @method DELETE
+ * @param {string} endpoint - endpoint to remove movies from favorites "url/users/:Username/movies/:MovieID"
+ * @param {string} Title Username - both are required
+ * @returns {string} - returns success/error message
+ * @requires authentication JWT
+ */
 app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
     $pull: { FavoriteMovies: req.params.MovieID }
@@ -237,7 +305,14 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
     });
 });
 
-//Allow existing users to deregister
+/**
+ * Allow existing users to deregister
+ * @method DELETE
+ * @param {string} endpoint - endpoint to delete user data "url/users/:Username"
+ * @param {string} Title Username - both are required
+ * @returns {string} - returns success/error message
+ * @requires authentication JWT
+ */
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
